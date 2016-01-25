@@ -14,9 +14,9 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
-public class SupervisorService extends Service implements SensorEventListener {
+//public class SupervisorService extends Service implements SensorEventListener {
 
-    private static final String LOG_TAG = "SupervisorSensor";
+    /*private static final String LOG_TAG = "SupervisorSensor";
     private boolean gameStarted;
     private BroadcastReceiver mReceiver;
 
@@ -140,6 +140,6 @@ public class SupervisorService extends Service implements SensorEventListener {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
-    }
-}
+    }*/
+//}
 

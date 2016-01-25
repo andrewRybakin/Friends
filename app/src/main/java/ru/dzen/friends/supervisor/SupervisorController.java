@@ -1,6 +1,6 @@
 package ru.dzen.friends.supervisor;
 
-import android.content.Context;
+/*import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -9,7 +9,7 @@ import ru.dzen.besraznitsy.SeekGamesFragment;
 import ru.dzen.besraznitsy.StaticMathemetics;
 
 public class SupervisorController {
-    public static final String EXTRA_SCORE = "superVisorControllerScore";
+    /*public static final String EXTRA_SCORE = "superVisorControllerScore";
 
     private static SupervisorController ourInstance = new SupervisorController();
     private float score;
@@ -61,4 +61,4 @@ public class SupervisorController {
                 (new Intent()).setAction(SeekGamesFragment.GAME_STOPPED).putExtra(EXTRA_SCORE, score).setType("text/*")
         );
     }
-}
+}*/
