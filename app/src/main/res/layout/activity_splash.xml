@@ -11,7 +11,7 @@
     tools:context=".SplashActivity">
 
     <ImageView
-        android:id="@+id/splah_logo"
+        android:id="@+id/splash_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -21,7 +21,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/splah_logo"
+        android:layout_below="@id/splash_logo"
         android:layout_centerHorizontal="true"
         android:text="@string/splash_loading"
         android:textAlignment="center" />
