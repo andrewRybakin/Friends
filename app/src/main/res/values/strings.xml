@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Friends</string>
     <string name="splash_loading">Loading</string>
-    <string name="login">Login</string>
+    <string name="login_vk">VK</string>
+    <string name="login_google">G+</string>
     <integer name="com_vk_sdk_AppId">5248551</integer>
 </resources>

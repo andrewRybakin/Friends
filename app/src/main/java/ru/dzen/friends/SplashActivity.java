@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.vk.sdk.VKSdk;
-import com.vk.sdk.util.VKUtil;
-
 import java.util.Arrays;
 
 public class SplashActivity extends AppCompatActivity {
@@ -21,8 +18,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        VKSdk.initialize(getApplicationContext());
 
         setContentView(R.layout.activity_splash);
 
