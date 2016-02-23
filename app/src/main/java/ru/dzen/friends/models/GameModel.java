@@ -19,9 +19,8 @@ public class GameModel {
 
     /**
      * Конструктор
-     *
-     * @param name   - имя игры
-     * @param place  - место (кафешка и т.п)
+     * @param name - имя игры
+     * @param place - место (кафешка и т.п)
      * @param opened - открыта ли комната
      */
     public GameModel(String name, String place, boolean opened) {

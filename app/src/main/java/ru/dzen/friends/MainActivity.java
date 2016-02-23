@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         FrameLayout fl = new FrameLayout(this);
         fl.setId(R.id.main_frame_layout);
         if (savedInstanceState != null)
