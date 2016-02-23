@@ -1,9 +1,12 @@
 package ru.dzen.friends;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import java.util.Arrays;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -16,7 +19,11 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_splash);
+
+        /*String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
+        Log.d("myLog", Arrays.toString(fingerprints));*/
         if (savedInstanceState != null)
             isThreadStarted = savedInstanceState.getBoolean(THREAD_STARTED, false);
         if (!isThreadStarted) {
