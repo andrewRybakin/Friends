@@ -11,15 +11,12 @@ public class SplashActivity extends AppCompatActivity {
     private final String THREAD_STARTED = "ru.dzen.friends.isThreadStarted";
     private boolean isThreadStarted;
     private Thread splash;
+    private static boolean dontStart = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_splash);
-
-        /*String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
-        Log.d("myLog", Arrays.toString(fingerprints));*/
         if (savedInstanceState != null)
             isThreadStarted = savedInstanceState.getBoolean(THREAD_STARTED, false);
         if (!isThreadStarted) {
@@ -32,8 +29,10 @@ public class SplashActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         Log.e(TAG, e.getMessage());
                     }
-                    Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(i);
+                    if (!dontStart) {
+                        Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+                        startActivity(i);
+                    }
                     finish();
                 }
             });
@@ -48,10 +47,14 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        splash.interrupt();
-        finish();
+    protected void onDestroy() {
+        super.onDestroy();
+        dontStart = true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dontStart = false;
+    }
 }
