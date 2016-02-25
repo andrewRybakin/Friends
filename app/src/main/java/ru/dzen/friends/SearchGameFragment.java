@@ -26,6 +26,8 @@ import ru.dzen.friends.models.GameModel;
 
 public class SearchGameFragment extends ListFragment {
 
+    // TODO: Серьезно подумать над технологией обновления списка... GCM - из пушки по воробьям, но на крайний случай сойдет
+
     public static final String TAG = "ru.dzen.friends.SearchGameFragment";
 
     private FloatingActionButton fab;

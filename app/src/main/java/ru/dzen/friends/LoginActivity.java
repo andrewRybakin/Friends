@@ -17,6 +17,9 @@ import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 
 public class LoginActivity extends Activity {
+
+    //TODO Прикрутить логин... Мы с Серегой уже сделали часть (в RemoteController) чисто чтобы прощупать способ коннекта и было понятно как им пользвоаться))
+
     private static final int ACCOUNT_PICK_CODE = 1;
     private static final String[] sMyScope = new String[]{
             VKScope.FRIENDS,
@@ -63,7 +66,6 @@ public class LoginActivity extends Activity {
             }
         });
 
-
         googleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +73,6 @@ public class LoginActivity extends Activity {
                         false, null, null, null, null);
                 Log.d("myLog", intent.getAction());
                 startActivityForResult(intent, ACCOUNT_PICK_CODE);
-
             }
         });
     }

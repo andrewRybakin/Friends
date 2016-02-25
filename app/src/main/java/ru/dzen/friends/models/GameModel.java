@@ -18,8 +18,6 @@ public class GameModel {
     }
 
     /**
-     * Конструктор
-     *
      * @param name   - имя игры
      * @param place  - место (кафешка и т.п)
      * @param opened - открыта ли комната
