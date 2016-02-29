@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 public class MainActivity extends AppCompatActivity {
 
     private static final String CURRENT_FRAGMENT_KEY = "currentFragmentTag";
+    private static final String LOG_TAG = "MainActivity";
 
     private String currentFragmentTag;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
             currentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_KEY);
         else
             currentFragmentTag = SearchGameFragment.TAG;
+        checkConnection();
         FragmentManager fm = getFragmentManager();
         Fragment f = fm.findFragmentByTag(currentFragmentTag);
         if (f == null)
@@ -36,10 +38,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(fl);
     }
 
+    private void checkConnection() {
+
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(CURRENT_FRAGMENT_KEY, currentFragmentTag);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

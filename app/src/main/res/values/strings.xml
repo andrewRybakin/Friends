@@ -8,4 +8,7 @@
     <string name="read_qr">Read QR-code</string>
     <string name="login_vk">VK</string>
     <string name="login_google">Google</string>
+    <string name="server_not_responsing">Server isn\'t up... Try again later</string>
+    <string name="OK">Ok</string>
+    <string name="error">Error!</string>
 </resources>

@@ -1,25 +1,33 @@
 package ru.dzen.friends.controllers;
 
-import android.os.AsyncTask;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import ru.dzen.friends.models.GameModel;
+import ru.dzen.friends.models.Greeting;
 
 public class RemoteController {
 
+    private static final String LOG_TAG = "RemoteController";
     private static RemoteController instance;
+    public static final String SERVER_OFFLINE_ACTION = "ru.dzen.friends.controllers.RemoteController.serverNotResponding";
+    public static final Intent SERVER_OFFLINE_INTENT = new Intent(SERVER_OFFLINE_ACTION);
+    public static final String SERVER_ONLINE_ACTION = "ru.dzen.friends.controllers.RemoteController.serverResponding";
+    public static final Intent SERVER_ONLINE_INTENT = new Intent(SERVER_ONLINE_ACTION);
 
+    static {
+        SERVER_OFFLINE_INTENT.setType("text/*");//Я честно хз зачем, но без этого дерьма фильтр не работает >< Опытным путем выяснено-_- Ну или руки кривые:(
+        SERVER_ONLINE_INTENT.setType("text/*");
+    }
     /**
      * При первом получении instance пытается подключиться к серверу
      *
      * @return Instance - при удачном подключении
-     * null - при неудачном подключении
      */
     public static RemoteController getInstance() {
         if (instance == null)
@@ -32,18 +40,30 @@ public class RemoteController {
 
     /**
      * Залогиниться!
-     *
-     * @return true - если залогинился|
-     * false - если не залогинился (ну это был шаблончик такой, возможно не надо будет ничего возвращать)
      */
-    public boolean login(String vkId, String gPlusId) {
-        //TODO Получить от сервера экземпляр класса RemoteUserModel и засторить в preferences id от сервера
-        new HttpRequestTask().execute(
-                "/login?" +
-                        ((vkId != null) ? "vk_id=" + vkId : "") +
-                        ((gPlusId != null) ? "email=" + gPlusId : "")
-        );
-        return true;
+    public void login(String vkId, String gPlusId) {
+        //TODO Получить от сервера экземпляр класса RemoteUserModel и засторить в preferences id от сервера. Обращаться к /login?vkId= или /login?email=
+    }
+
+    /**
+     * Щупалка сервера. Так же служит, как пример подключения к серверу и получения от него данных
+     */
+    public void canYouFeelMyServer(final Context context) {
+        HttpRequestTask<Greeting> feelTask = new HttpRequestTask<>(Greeting.class, new HttpRequestTask.OnPostExecute<Greeting>() {
+            @Override
+            public void onPostExecute(Greeting o) {
+                System.out.println("afdfwrger");
+                Log.d(LOG_TAG, "Сникерс");
+                if (o == null) {
+                    Log.d(LOG_TAG, "Сникерс не существует:(");
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(SERVER_OFFLINE_INTENT);
+                } else {
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(SERVER_ONLINE_INTENT);
+                    Log.d(LOG_TAG, "Сникерс существует!!!");
+                }
+            }
+        });
+        feelTask.execute("/greeting");
     }
 
     /**
@@ -59,27 +79,5 @@ public class RemoteController {
             testArrayList.add(new GameModel("GameModel " + i, "Some place", (new Random()).nextBoolean()));
         }
         return testArrayList;
-    }
-
-    /**
-     * Таск коннекта
-     * Возвращает Object, который, чисто теоретически должен нормально кастоваться к нужному классу модели.
-     * Если не получится, то придется определять какой запрос исполняется:(
-     */
-    private class HttpRequestTask extends AsyncTask<String, Void, Object> {
-        @Override
-        protected Object doInBackground(String... params) {
-            try {
-                final String url = "https://zen-server.herokuapp.com/" + params[0];
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                //Следующая строка как раз создает экземпляр класса с пропарсенными в него данными из json'a
-                Object o = restTemplate.getForObject(url, Object.class);
-                return o;
-            } catch (Exception e) {
-                Log.e("RemoteController", e.getMessage(), e);
-            }
-            return null;
-        }
     }
 }
