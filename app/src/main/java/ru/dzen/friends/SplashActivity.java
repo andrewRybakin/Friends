@@ -61,7 +61,7 @@ public class SplashActivity extends AppCompatActivity {
                                             .setCancelable(false)
                                             .show();
                                 } else {
-                                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                                    Intent i = new Intent(SplashActivity.this, LoginActivity.class);
                                     startActivity(i);
                                     finish();
                                 }
