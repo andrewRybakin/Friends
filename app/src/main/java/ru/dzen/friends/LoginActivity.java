@@ -37,6 +37,7 @@ public class LoginActivity extends Activity {
     private final static String EMAIL_SCOPE =
             "https://www.googleapis.com/auth/userinfo.email";
     private final static String SCOPES = G_PLUS_SCOPE + " " + USERINFO_SCOPE + " " + EMAIL_SCOPE;
+    private static final String LOG_TAG = "LoginActivity";
 
     private Button vkLogin;
     private Button googleLogin;//22:13:2F:26:DA:60:60:11:7C:9C:88:86:E3:4C:07:B8:4E:47:2D:FD
@@ -75,6 +76,12 @@ public class LoginActivity extends Activity {
                 startActivityForResult(intent, ACCOUNT_PICK_CODE);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(LOG_TAG, "Destroy");
     }
 
     @Override
@@ -129,6 +136,7 @@ public class LoginActivity extends Activity {
                 Log.d("myLog", "neOK");
             }
         })) ;
+
 
     }
 

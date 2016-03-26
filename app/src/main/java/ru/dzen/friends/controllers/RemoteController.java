@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -49,16 +50,16 @@ public class RemoteController {
      * Щупалка сервера. Так же служит, как пример подключения к серверу и получения от него данных
      */
     public void canYouFeelMyServer(final Context context) {
+        final WeakReference<Context> c = new WeakReference<>(context);
         HttpRequestTask<Greeting> feelTask = new HttpRequestTask<>(Greeting.class, new HttpRequestTask.OnPostExecute<Greeting>() {
             @Override
             public void onPostExecute(Greeting o) {
-                System.out.println("afdfwrger");
                 Log.d(LOG_TAG, "Сникерс");
                 if (o == null) {
                     Log.d(LOG_TAG, "Сникерс не существует:(");
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(SERVER_OFFLINE_INTENT);
+                    LocalBroadcastManager.getInstance(c.get()).sendBroadcast(SERVER_OFFLINE_INTENT);
                 } else {
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(SERVER_ONLINE_INTENT);
+                    LocalBroadcastManager.getInstance(c.get()).sendBroadcast(SERVER_ONLINE_INTENT);
                     Log.d(LOG_TAG, "Сникерс существует!!!");
                 }
             }

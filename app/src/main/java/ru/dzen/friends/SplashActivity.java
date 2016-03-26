@@ -19,8 +19,8 @@ public class SplashActivity extends AppCompatActivity {
     private final String TAG = "SplashActivity";
     private final String THREAD_STARTED = "ru.dzen.friends.isThreadStarted";
     private boolean isThreadStarted;
-    private Thread splash;
     private static boolean dontStart = false;
+    private BroadcastReceiver serverStateReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,21 +30,15 @@ public class SplashActivity extends AppCompatActivity {
             isThreadStarted = savedInstanceState.getBoolean(THREAD_STARTED, false);
         if (!isThreadStarted) {
             android.os.Handler h = new android.os.Handler();
-
-            splash = new Thread(new Runnable() {
+            h.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     isThreadStarted = true;
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        Log.e(TAG, e.getMessage());
-                    }
                     Log.d(TAG, "Don't start? " + dontStart);
                     if (!dontStart) {
                         IntentFilter filter = IntentFilter.create(RemoteController.SERVER_OFFLINE_ACTION, "text/*");
                         filter.addAction(RemoteController.SERVER_ONLINE_ACTION);
-                        LocalBroadcastManager.getInstance(SplashActivity.this).registerReceiver(new BroadcastReceiver() {
+                        serverStateReceiver = new BroadcastReceiver() {
                             @Override
                             public void onReceive(Context context, Intent intent) {
                                 if (intent.getAction().equals(RemoteController.SERVER_OFFLINE_ACTION)) {
@@ -61,18 +55,22 @@ public class SplashActivity extends AppCompatActivity {
                                             .setCancelable(false)
                                             .show();
                                 } else {
-                                    Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-                                    startActivity(i);
-                                    finish();
+                                    startApp();
                                 }
                             }
-                        }, filter);
+                        };
+                        LocalBroadcastManager.getInstance(SplashActivity.this).registerReceiver(serverStateReceiver, filter);
                         RemoteController.getInstance().canYouFeelMyServer(SplashActivity.this);
                     }
                 }
-            });
-            splash.start();
+            }, 2000);
         }
+    }
+
+    private void startApp() {
+        Intent i = new Intent(SplashActivity.this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override
@@ -85,6 +83,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         dontStart = true;
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(serverStateReceiver);
     }
 
     @Override
