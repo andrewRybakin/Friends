@@ -13,4 +13,5 @@
     <string name="error">Error!</string>
     <string name="cancel">cancel</string>
     <string name="set_room_name">Set room name</string>
+    <string name="game_is_going_on">Game is going now</string>
 </resources>

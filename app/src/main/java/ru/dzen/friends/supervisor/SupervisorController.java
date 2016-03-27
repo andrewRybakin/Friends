@@ -59,7 +59,6 @@ public class SupervisorController {
 
     public void onGameEnd(long time, Context c) {
         Log.d("ПриветКрл1", "Игра остановлена");
-
         LocalBroadcastManager.getInstance(c).sendBroadcast(
                 (new Intent()).setAction(GameFragment.GAME_STOPPED).putExtra(EXTRA_SCORE, score).setType("text/*")
         );

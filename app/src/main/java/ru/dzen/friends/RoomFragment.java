@@ -13,21 +13,24 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ru.dzen.friends.controllers.RemoteController;
+import ru.dzen.friends.models.RoomModel;
 import ru.dzen.friends.models.RoomParticipant;
 
 public class RoomFragment extends ListFragment {
 
     public static final String TAG = "ru.dzen.friends.RoomFragment";
+    public static final String ROOM_MODEL = "ru.dzen.friends.RoomModel";
     private FloatingActionButton fab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_room, container, false);
         fab = (FloatingActionButton) v.findViewById(R.id.search_fab);
+        //Показывать только админу. У остальных игра начинается по команде с сервера
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).changeFragment(GameFragment.TAG);
+                RemoteController.getInstance().startGame(getActivity(), (RoomModel) getArguments().getParcelable(ROOM_MODEL));
             }
         });
         return v;

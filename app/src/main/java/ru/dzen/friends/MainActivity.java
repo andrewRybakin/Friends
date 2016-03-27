@@ -24,14 +24,24 @@ public class MainActivity extends AppCompatActivity {
                 return new RoomFragment();
             case GameFragment.TAG:
                 return new GameFragment();
+            default:
+                return new SearchGameFragment();
         }
-        return null;
     }
 
     public void changeFragment(String fragmentTag) {
         Fragment f = fm.findFragmentByTag(fragmentTag);
         if (f == null)
             f = createProperFragment(fragmentTag);
+        fm.beginTransaction().replace(fl.getId(), f, fragmentTag).commit();
+        currentFragmentTag = fragmentTag;
+    }
+
+    public void changeFragment(String fragmentTag, Bundle bundle) {
+        Fragment f = fm.findFragmentByTag(fragmentTag);
+        if (f == null)
+            f = createProperFragment(fragmentTag);
+        f.setArguments(bundle);
         fm.beginTransaction().replace(fl.getId(), f, fragmentTag).commit();
         currentFragmentTag = fragmentTag;
     }

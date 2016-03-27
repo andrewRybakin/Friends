@@ -1,7 +1,9 @@
 package ru.dzen.friends.controllers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -9,6 +11,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Random;
 
+import ru.dzen.friends.GameFragment;
+import ru.dzen.friends.MainActivity;
+import ru.dzen.friends.RoomFragment;
 import ru.dzen.friends.models.GameModel;
 import ru.dzen.friends.models.Greeting;
 import ru.dzen.friends.models.RoomModel;
@@ -94,18 +99,25 @@ public class RemoteController {
     }
 
     public RoomModel createRoom(String roomName, boolean isItOpen) {
-        return new RoomModel(new Random().nextInt(), "roomName " + isItOpen);
+        return new RoomModel(100, "name");
     }
 
     public RoomModel getRoom(int id) {
         return new RoomModel(id, "aaa");
     }
 
-    public void startGame(int id) {
-
+    public void startGame(Activity mainActivity, RoomModel room) {
+        //Отправить на серв
+        Bundle bndl = new Bundle();
+        bndl.putParcelable(RoomFragment.ROOM_MODEL, room);
+        ((MainActivity) mainActivity).changeFragment(GameFragment.TAG, bndl);
     }
 
     public long checkGameState(int id) {
         return 100;
+    }
+
+    public void sendResult() {
+
     }
 }

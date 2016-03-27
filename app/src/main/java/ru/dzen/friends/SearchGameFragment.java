@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import ru.dzen.friends.controllers.RemoteController;
 import ru.dzen.friends.models.GameModel;
+import ru.dzen.friends.models.RoomModel;
 
 public class SearchGameFragment extends ListFragment {
 
@@ -38,15 +39,19 @@ public class SearchGameFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
+        final EditText editText = new EditText(getActivity());
         fab = (FloatingActionButton) v.findViewById(R.id.search_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 (new AlertDialog.Builder(getActivity())).setTitle(R.string.set_room_name)
-                        .setView(new EditText(getActivity())).setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                        .setView(editText).setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity) getActivity()).changeFragment(RoomFragment.TAG);
+                        RoomModel rModel = RemoteController.getInstance().createRoom(editText.getText().toString(), true);
+                        Bundle args = new Bundle();
+                        args.putParcelable(RoomFragment.ROOM_MODEL, rModel);
+                        ((MainActivity) getActivity()).changeFragment(RoomFragment.TAG, args);
                     }
                 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
