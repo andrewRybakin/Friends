@@ -33,6 +33,7 @@ public class GameFragment extends Fragment {
         GAME_STOPPED_BROADCAST = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                //TODO Создать (читать - скопипастить RoomFragment и добавить в вью элемента списка поле со скором) и открыть фрагмент с результатами игры
                 float score = intent.getExtras().getFloat(SupervisorController.EXTRA_SCORE);
                 RemoteController.getInstance().sendResult();
             }

@@ -27,6 +27,7 @@ public class RoomFragment extends ListFragment {
         View v = inflater.inflate(R.layout.fragment_room, container, false);
         fab = (FloatingActionButton) v.findViewById(R.id.search_fab);
         //Показывать только админу. У остальных игра начинается по команде с сервера
+        //TODO: Прятать fab для неадмина
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

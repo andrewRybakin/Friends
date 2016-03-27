@@ -55,14 +55,9 @@ public class MainActivity extends AppCompatActivity {
             currentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_KEY);
         else
             currentFragmentTag = SearchGameFragment.TAG;
-        checkConnection();
         fm = getFragmentManager();
         changeFragment(SearchGameFragment.TAG);
         setContentView(fl);
-    }
-
-    private void checkConnection() {
-
     }
 
     @Override

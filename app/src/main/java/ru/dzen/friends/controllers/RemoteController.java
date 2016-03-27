@@ -82,7 +82,7 @@ public class RemoteController {
      * @deprecated ПОКА ЧТО С ТЕСТОВОЙ ЗАГЛУШКОЙ
      */
     public ArrayList<GameModel> getGamesAroundMe() {
-        // TODO Вытянуть список игр и отправить его бродкастом в листвью
+        // TODO Вытянуть реальный список игр
         ArrayList<GameModel> testArrayList = new ArrayList<>();
         for (int i = 0; i < 1.5 * ((new Random()).nextGaussian()) + 10; i++) {
             testArrayList.add(new GameModel("GameModel " + i, "Some place", (new Random()).nextBoolean()));
@@ -91,6 +91,7 @@ public class RemoteController {
     }
 
     public ArrayList<RoomParticipant> askForParticipants() {
+        // TODO Получение списка участников комнаты. Надо придумать способ обновления списков всех..
         ArrayList<RoomParticipant> testArrayList = new ArrayList<>();
         for (int i = 0; i < 1.5 * ((new Random()).nextGaussian()) + 10; i++) {
             testArrayList.add(new RoomParticipant("someemail@gmail.com", "Name " + i));
@@ -99,6 +100,7 @@ public class RemoteController {
     }
 
     public RoomModel createRoom(String roomName, boolean isItOpen) {
+        // TODO Создание комнаты на серве
         return new RoomModel(100, "name");
     }
 
@@ -107,17 +109,14 @@ public class RemoteController {
     }
 
     public void startGame(Activity mainActivity, RoomModel room) {
+        //TODO Команда запуска игры на сервер. Надо его периодически опрашивать об окончании игры. Криво, но на пока сойдет
         //Отправить на серв
         Bundle bndl = new Bundle();
         bndl.putParcelable(RoomFragment.ROOM_MODEL, room);
         ((MainActivity) mainActivity).changeFragment(GameFragment.TAG, bndl);
     }
 
-    public long checkGameState(int id) {
-        return 100;
-    }
-
     public void sendResult() {
-
+        //TODO Отправить свой скор по окончании игры
     }
 }
