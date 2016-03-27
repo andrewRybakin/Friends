@@ -11,4 +11,6 @@
     <string name="server_not_responsing">Server isn\'t up... Try again later</string>
     <string name="OK">Ok</string>
     <string name="error">Error!</string>
+    <string name="cancel">cancel</string>
+    <string name="set_room_name">Set room name</string>
 </resources>

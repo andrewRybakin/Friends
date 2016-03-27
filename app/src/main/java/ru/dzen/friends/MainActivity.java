@@ -13,29 +13,41 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";
 
     private String currentFragmentTag;
+    private FrameLayout fl;
+    private FragmentManager fm;
+
+    private Fragment createProperFragment(String fragmentTag) {
+        switch (fragmentTag) {
+            case SearchGameFragment.TAG:
+                return new SearchGameFragment();
+            case RoomFragment.TAG:
+                return new RoomFragment();
+            case GameFragment.TAG:
+                return new GameFragment();
+        }
+        return null;
+    }
+
+    public void changeFragment(String fragmentTag) {
+        Fragment f = fm.findFragmentByTag(fragmentTag);
+        if (f == null)
+            f = createProperFragment(fragmentTag);
+        fm.beginTransaction().replace(fl.getId(), f, fragmentTag).commit();
+        currentFragmentTag = fragmentTag;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FrameLayout fl = new FrameLayout(this);
+        fl = new FrameLayout(this);
         fl.setId(R.id.main_frame_layout);
         if (savedInstanceState != null)
             currentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_KEY);
         else
             currentFragmentTag = SearchGameFragment.TAG;
         checkConnection();
-        FragmentManager fm = getFragmentManager();
-        Fragment f = fm.findFragmentByTag(currentFragmentTag);
-        if (f == null)
-            switch (currentFragmentTag) {
-                case SearchGameFragment.TAG:
-                    fm.beginTransaction()
-                            .replace(fl.getId(), new SearchGameFragment())
-                            .commit();
-                    setTitle(R.string.searching_game);
-                    break;
-                //Далее будет добавлено
-            }
+        fm = getFragmentManager();
+        changeFragment(SearchGameFragment.TAG);
         setContentView(fl);
     }
 

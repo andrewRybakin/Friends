@@ -1,7 +1,9 @@
 package ru.dzen.friends;
 
+import android.app.AlertDialog;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,6 +39,23 @@ public class SearchGameFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
         fab = (FloatingActionButton) v.findViewById(R.id.search_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                (new AlertDialog.Builder(getActivity())).setTitle(R.string.set_room_name)
+                        .setView(new EditText(getActivity())).setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((MainActivity) getActivity()).changeFragment(RoomFragment.TAG);
+                    }
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+        });
         return v;
     }
 

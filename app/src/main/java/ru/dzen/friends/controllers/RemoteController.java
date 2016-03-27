@@ -11,6 +11,8 @@ import java.util.Random;
 
 import ru.dzen.friends.models.GameModel;
 import ru.dzen.friends.models.Greeting;
+import ru.dzen.friends.models.RoomModel;
+import ru.dzen.friends.models.RoomParticipant;
 
 public class RemoteController {
 
@@ -25,6 +27,7 @@ public class RemoteController {
         SERVER_OFFLINE_INTENT.setType("text/*");//Я честно хз зачем, но без этого дерьма фильтр не работает >< Опытным путем выяснено-_- Ну или руки кривые:(
         SERVER_ONLINE_INTENT.setType("text/*");
     }
+
     /**
      * При первом получении instance пытается подключиться к серверу
      *
@@ -80,5 +83,29 @@ public class RemoteController {
             testArrayList.add(new GameModel("GameModel " + i, "Some place", (new Random()).nextBoolean()));
         }
         return testArrayList;
+    }
+
+    public ArrayList<RoomParticipant> askForParticipants() {
+        ArrayList<RoomParticipant> testArrayList = new ArrayList<>();
+        for (int i = 0; i < 1.5 * ((new Random()).nextGaussian()) + 10; i++) {
+            testArrayList.add(new RoomParticipant("someemail@gmail.com", "Name " + i));
+        }
+        return testArrayList;
+    }
+
+    public RoomModel createRoom(String roomName, boolean isItOpen) {
+        return new RoomModel(new Random().nextInt(), "roomName " + isItOpen);
+    }
+
+    public RoomModel getRoom(int id) {
+        return new RoomModel(id, "aaa");
+    }
+
+    public void startGame(int id) {
+
+    }
+
+    public long checkGameState(int id) {
+        return 100;
     }
 }

@@ -16,10 +16,13 @@ import ru.dzen.friends.controllers.RemoteController;
 public class SplashActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "SplashActivity";
-    private final String TAG = "SplashActivity";
-    private final String THREAD_STARTED = "ru.dzen.friends.isThreadStarted";
-    private boolean isThreadStarted;
     private static boolean dontStart = false;
+    private static final String TAG = "SplashActivity";
+    private static final String THREAD_STARTED = "ru.dzen.friends.isThreadStarted";
+    private boolean isThreadStarted;
+    private android.os.Handler h;
+    private Runnable r;
+
     private BroadcastReceiver serverStateReceiver;
 
     @Override
@@ -29,8 +32,8 @@ public class SplashActivity extends AppCompatActivity {
         if (savedInstanceState != null)
             isThreadStarted = savedInstanceState.getBoolean(THREAD_STARTED, false);
         if (!isThreadStarted) {
-            android.os.Handler h = new android.os.Handler();
-            h.postDelayed(new Runnable() {
+            h = new android.os.Handler();
+            r = new Runnable() {
                 @Override
                 public void run() {
                     isThreadStarted = true;
@@ -63,13 +66,15 @@ public class SplashActivity extends AppCompatActivity {
                         RemoteController.getInstance().canYouFeelMyServer(SplashActivity.this);
                     }
                 }
-            }, 2000);
+            };
+            h.postDelayed(r, 2000);
         }
     }
 
     private void startApp() {
         Intent i = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(i);
+        LocalBroadcastManager.getInstance(SplashActivity.this).unregisterReceiver(serverStateReceiver);
         finish();
     }
 
@@ -83,6 +88,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         dontStart = true;
+        h.removeCallbacks(r);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(serverStateReceiver);
     }
 
