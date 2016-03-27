@@ -2,10 +2,13 @@ package ru.dzen.friends;
 
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +39,9 @@ public class GameFragment extends Fragment {
         };
     }
 
+    private ServiceConnection aPConnection;
+    private SupervisorService mService;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_game, container, false);
@@ -52,6 +58,20 @@ public class GameFragment extends Fragment {
         getActivity().startService(serviceIntent);
         IntentFilter filter = IntentFilter.create(GAME_STOPPED, "text/*");
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(GAME_STOPPED_BROADCAST, filter);
+        aPConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                mService = ((SupervisorService.SupervisorBinder) service).getService();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+        serviceIntent = new Intent(getActivity(), SupervisorService.class);
+        if (savedInstanceState == null) getActivity().startService(serviceIntent);
+        getActivity().bindService(serviceIntent, aPConnection, 0);
     }
 
     @Override
@@ -59,5 +79,7 @@ public class GameFragment extends Fragment {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(GAME_STOPPED_BROADCAST);
         getActivity().stopService(serviceIntent);
+        getActivity().unbindService(aPConnection);
     }
+
 }

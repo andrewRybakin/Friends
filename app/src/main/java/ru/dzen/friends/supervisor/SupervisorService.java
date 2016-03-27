@@ -45,6 +45,7 @@ public class SupervisorService extends Service implements SensorEventListener {
 
     @Override
     public IBinder onBind(Intent intent) {
+        startGame();
         return new SupervisorBinder(this);
     }
 
